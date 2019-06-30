@@ -23,7 +23,7 @@ class App extends React.Component {
         ]
         return (
             <div className="container">
-                <Table/>
+                 <Table characterData={characters} />
             </div>
         )
     }
