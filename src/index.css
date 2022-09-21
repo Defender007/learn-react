@@ -1,0 +1,21 @@
+.highlight {
+    background-color: #80C0B5;
+}
+
+.navbar-style {
+    background-color: #0C8351 !important;
+}
+
+.green-highlight {
+    color: #00CC00;
+    font: 40px;
+}
+
+.red-highlight {
+    color: #CC0000;
+    font: 25px;
+}
+
+.hand-icon {
+    cursor: pointer;
+}
