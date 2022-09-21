@@ -4,43 +4,7 @@ export default class CustomersList extends Component {
   state = {
     pageTitle: "Customers",
     customersCount: 5,
-    customers: [
-      {
-        id: 1,
-        name: "Scott",
-        phone: "123-456",
-        address: { city: "New Delhi" },
-        photo: "https://media.istockphoto.com/photos/mature-businessman-smiling-over-white-background-picture-id685132245?b=1&k=20&m=685132245&s=612x612&w=0&h=vDrgOXgZiPhJrAHZJP77qDaB77oxXohhTNhTGAT_1jE=",
-      },
-      {
-        id: 2,
-        name: "Jones",
-        phone: "982-014",
-        address: { city: "New Jersy" },
-        photo: "https://media.istockphoto.com/photos/studio-waist-up-portrait-of-a-beautiful-businesswoman-with-crossed-picture-id1180926773?b=1&k=20&m=1180926773&s=612x612&w=0&h=ZQv4MQIH8Jg6ZHZ4lYxQk5C7J3K678q7DZcS2OYy4sQ=",
-      },
-      {
-        id: 3,
-        name: "Allen",
-        phone: "889-921",
-        address: { city: "London" },
-        photo: "https://media.istockphoto.com/photos/smiling-black-man-in-suit-posing-on-studio-background-picture-id1201144328?b=1&k=20&m=1201144328&s=612x612&w=0&h=HVsjzeExJBJT3bj3wD_xVLzKd8kJVWRkEJjsRbsV04c=",
-      },
-      {
-        id: 4,
-        name: "James",
-        phone: null,
-        address: { city: "Berlin" },
-        photo: "https://media.istockphoto.com/photos/portrait-of-young-happy-indian-business-man-executive-looking-at-picture-id1309489745?b=1&k=20&m=1309489745&s=612x612&w=0&h=SvwAcCHO9JeEfiibPrhvM4vwmlifl8bZV3KLlhTrUMY=",
-      },
-      {
-        id: 5,
-        name: "John",
-        phone: null,
-        address: { city: "New York" },
-        photo: "https://images.pexels.com/photos/3797438/pexels-photo-3797438.jpeg?auto=compress&cs=tinysrgb&w=300",
-      },
-    ],
+    customers: [],
   };
 
   render() {
@@ -72,6 +36,35 @@ export default class CustomersList extends Component {
         </table>
       </div>
     );
+  }
+  // render ends here
+
+
+  //Executes after constructor and render method (includes life cycle of child components, if any) of current component
+  componentDidMount = async () => {
+    //send request to server
+    const response = await fetch("http://localhost:5000/customers", {
+      method: "GET",
+    });
+
+    //the following code executes after receiving response from server
+    //converting the response body into a JS object array
+    const custs = await response.json();
+
+    //the following code executes after converting response body into JS object array
+    console.log(custs);
+
+    //updating products into component's state
+    this.setState({ customers: custs });
+
+    //console.log("componentDidMount - CustomersList");
+  };
+
+  componentDidCatch(error, info) {
+    //console.log("componentDidCatch - CustomersList");
+    console.log(error, info);
+
+    localStorage.lastError = `${error}\n${JSON.stringify(info)}`;
   }
 
   //Executes when the user clicks on Refresh button
@@ -121,7 +114,8 @@ export default class CustomersList extends Component {
 
     //get existing customers
     const custArr = this.state.customers;
-    custArr[index].photo = "https://images.pexels.com/photos/37546/woman-portrait-face-studio-37546.jpeg?auto=compress&cs=tinysrgb&w=600";
+    custArr[index].photo =
+      "https://images.pexels.com/photos/37546/woman-portrait-face-studio-37546.jpeg?auto=compress&cs=tinysrgb&w=600";
 
     //update "customers" array in the state
     this.setState({ customers: custArr });
